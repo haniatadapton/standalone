@@ -21,24 +21,6 @@ import java.security.KeyStore;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.http.EHttpMethod;
-import com.helger.commons.url.URLHelper;
-import com.helger.phase4.dump.AS4DumpManager;
-import com.helger.phase4.dump.AS4IncomingDumperFileBased;
-import com.helger.phase4.dump.AS4OutgoingDumperFileBased;
-import com.helger.phase4.incoming.AS4IncomingProfileSelectorFromGlobal;
-import com.helger.phase4.incoming.AS4RequestHandler;
-import com.helger.phase4.mgr.MetaAS4Manager;
-import com.helger.phase4.peppol.servlet.Phase4PeppolDefaultReceiverConfiguration;
-import com.helger.phase4.profile.peppol.PeppolCRLDownloader;
-import com.helger.phase4.profile.peppol.Phase4PeppolHttpClientSettings;
-import com.helger.phase4.servlet.AS4UnifiedResponse;
-import com.helger.phase4.servlet.AS4XServletHandler;
-import com.helger.phase4.servlet.IAS4ServletRequestHandlerCustomizer;
-import com.helger.smpclient.peppol.SMPClientReadOnly;
-import com.helger.web.scope.IRequestWebScopeWithoutResponse;
-import com.helger.xservlet.AbstractXServlet;
-import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -48,24 +30,34 @@ import org.springframework.context.annotation.Configuration;
 
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.commons.exception.InitializationException;
+import com.helger.commons.http.EHttpMethod;
 import com.helger.commons.mime.CMimeType;
 import com.helger.commons.string.StringHelper;
 import com.helger.httpclient.HttpDebugger;
 import com.helger.phase4.config.AS4Configuration;
 import com.helger.phase4.crypto.AS4CryptoFactoryConfiguration;
 import com.helger.phase4.crypto.AS4CryptoFactoryInMemoryKeyStore;
-import com.helger.phase4.crypto.AS4CryptoFactoryProperties;
 import com.helger.phase4.crypto.IAS4CryptoFactory;
+import com.helger.phase4.dump.AS4DumpManager;
+import com.helger.phase4.dump.AS4IncomingDumperFileBased;
+import com.helger.phase4.dump.AS4OutgoingDumperFileBased;
+import com.helger.phase4.incoming.AS4RequestHandler;
 import com.helger.phase4.incoming.AS4ServerInitializer;
 import com.helger.phase4.incoming.mgr.AS4ProfileSelector;
 //import com.helger.phase4.profile.peppol.AS4PeppolProfileRegistarSPI;
 import com.helger.phase4.profile.bdew.AS4BDEWProfileRegistarSPI;
+import com.helger.phase4.servlet.AS4UnifiedResponse;
+import com.helger.phase4.servlet.AS4XServletHandler;
+import com.helger.phase4.servlet.IAS4ServletRequestHandlerCustomizer;
 import com.helger.photon.io.WebFileIO;
 import com.helger.servlet.ServletHelper;
+import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 import com.helger.web.scope.mgr.WebScopeManager;
+import com.helger.xservlet.AbstractXServlet;
 import com.helger.xservlet.requesttrack.RequestTrackerSettings;
 
 import jakarta.activation.CommandMap;
+import jakarta.annotation.PreDestroy;
 import jakarta.servlet.ServletContext;
 
 //@Configuration
@@ -284,12 +276,12 @@ public class ServletConfig
     // Our server should check all signing certificates of incoming messages if
     // they are revoked or not
     // (this is the default setting, but added it here for easy modification)
-    Phase4PeppolDefaultReceiverConfiguration.setCheckSigningCertificateRevocation (true);
+    // Phase4PeppolDefaultReceiverConfiguration.setCheckSigningCertificateRevocation (true);
 
     // Make sure the download of CRL is using Apache HttpClient and that the
     // provided settings are used. If e.g. a proxy is needed to access outbound
     // resources, it can be configured here
-    PeppolCRLDownloader.setAsDefaultCRLCache (new Phase4PeppolHttpClientSettings());
+    //     PeppolCRLDownloader.setAsDefaultCRLCache (new Phase4PeppolHttpClientSettings());
     
     AS4CryptoFactoryInMemoryKeyStore aCF = getCryptoFactoryToUse ();
 
@@ -337,15 +329,15 @@ public class ServletConfig
     {
       // To process the message even though the receiver is not registered in
       // our AP
-      Phase4PeppolDefaultReceiverConfiguration.setReceiverCheckEnabled (true);
-      Phase4PeppolDefaultReceiverConfiguration.setSMPClient (new SMPClientReadOnly(URLHelper.getAsURI (sSMPURL)));
-      Phase4PeppolDefaultReceiverConfiguration.setAS4EndpointURL (sAPURL);
+      // Phase4PeppolDefaultReceiverConfiguration.setReceiverCheckEnabled (true);
+      // Phase4PeppolDefaultReceiverConfiguration.setSMPClient (new SMPClientReadOnly(URLHelper.getAsURI (sSMPURL)));
+      // Phase4PeppolDefaultReceiverConfiguration.setAS4EndpointURL (sAPURL);
       //Phase4PeppolDefaultReceiverConfiguration.setAPCertificate (aAPCert);
       LOGGER.info ("phase4 Peppol receiver checks are enabled");
     }
     else
     {
-      Phase4PeppolDefaultReceiverConfiguration.setReceiverCheckEnabled (false);
+      // Phase4PeppolDefaultReceiverConfiguration.setReceiverCheckEnabled (false);
       LOGGER.warn ("phase4 Peppol receiver checks are disabled");
     }
   }
