@@ -52,6 +52,8 @@ import com.helger.commons.mime.CMimeType;
 import com.helger.commons.string.StringHelper;
 import com.helger.httpclient.HttpDebugger;
 import com.helger.phase4.config.AS4Configuration;
+import com.helger.phase4.crypto.AS4CryptoFactoryConfiguration;
+import com.helger.phase4.crypto.AS4CryptoFactoryInMemoryKeyStore;
 import com.helger.phase4.crypto.AS4CryptoFactoryProperties;
 import com.helger.phase4.crypto.IAS4CryptoFactory;
 import com.helger.phase4.incoming.AS4ServerInitializer;
@@ -147,13 +149,13 @@ public class ServletConfig
    * This method is a placeholder for retrieving a custom
    * {@link IAS4CryptoFactory}.
    *
-   * @return the {@link IAS4CryptoFactory} to use. May not be <code>null</code>.
+   * @return the {@link AS4CryptoFactoryInMemoryKeyStore} to use. May not be <code>null</code>.
    */
   @Nonnull
-  public static IAS4CryptoFactory getCryptoFactoryToUse ()
+  public static AS4CryptoFactoryInMemoryKeyStore getCryptoFactoryToUse ()
   {
       // If you have a custom crypto factory, build/return it here
-    return AS4CryptoFactoryProperties.getDefaultInstance ();
+    return AS4CryptoFactoryConfiguration.getDefaultInstance ();
   }
 
   public static class AS4BDEWServlet extends AbstractXServlet
@@ -255,17 +257,11 @@ public class ServletConfig
 
   private static void _initAS4 ()
   {
-
-    MetaAS4Manager.getProfileMgr().setDefaultProfile(MetaAS4Manager.getProfileMgr().getProfileOfID("bdew"));
-    LOGGER.info("defualt profile:" );
-    LOGGER.info(String.valueOf(MetaAS4Manager.getProfileMgr().getDefaultProfile()));
-
-
     //MetaAS4Manager.getPModeMgr()
 
 
     // Enforce BDEW profile usage
-    AS4ProfileSelector.setCustomAS4ProfileID (AS4BDEWProfileRegistarSPI.AS4_PROFILE_ID);
+    AS4ProfileSelector.setCustomDefaultAS4ProfileID (AS4BDEWProfileRegistarSPI.AS4_PROFILE_ID);
 
 //    LOGGER.info("available profiles after adding bdew:" );
 //    LOGGER.info(MetaAS4Manager.getProfileMgr().getAllProfiles().toString());
@@ -294,14 +290,16 @@ public class ServletConfig
     // provided settings are used. If e.g. a proxy is needed to access outbound
     // resources, it can be configured here
     PeppolCRLDownloader.setAsDefaultCRLCache (new Phase4PeppolHttpClientSettings());
+    
+    AS4CryptoFactoryInMemoryKeyStore aCF = getCryptoFactoryToUse ();
 
     // Check if crypto properties are okay
-    final KeyStore aKS = AS4CryptoFactoryProperties.getDefaultInstance ().getKeyStore ();
+    final KeyStore aKS = aCF.getKeyStore ();
     if (aKS == null)
       throw new InitializationException ("Failed to load configured AS4 Key store - fix the configuration");
     LOGGER.info ("Successfully loaded configured AS4 key store from the crypto factory");
 
-    final KeyStore.PrivateKeyEntry aPKE = AS4CryptoFactoryProperties.getDefaultInstance ().getPrivateKeyEntry ();
+    final KeyStore.PrivateKeyEntry aPKE = aCF.getPrivateKeyEntry ();
     if (aPKE == null)
       throw new InitializationException ("Failed to load configured AS4 private key - fix the configuration");
     LOGGER.info ("Successfully loaded configured AS4 private key from the crypto factory");
