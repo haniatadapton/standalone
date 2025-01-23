@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.helger.phase4</groupId>
     <artifactId>phase4-parent-pom</artifactId>
-    <version>3.0.0-beta1</version>
+    <version>3.0.2</version>
   </parent>
   <artifactId>phase4-peppol-standalone</artifactId>
   <name>phase4-peppol-standalone</name>
@@ -37,6 +37,11 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  
+  <properties>
+    <junit.jupiter.version>5.11.4</junit.jupiter.version>
+    <spring-boot.version>3.4.1</spring-boot.version>
+  </properties>
   
   <!-- Include here to not bloat the global scope -->  
   <dependencyManagement>
@@ -82,14 +87,6 @@
       <groupId>com.helger.phase4</groupId>
       <artifactId>phase4-profile-bdew</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.helger.phase4</groupId>
-      <artifactId>phase4-peppol-servlet</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.helger.phase4</groupId>
-      <artifactId>phase4-peppol-client</artifactId>
-    </dependency>
     
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
@@ -99,6 +96,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
