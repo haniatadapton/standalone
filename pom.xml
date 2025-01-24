@@ -29,7 +29,7 @@
   <description>phase4 Peppol demo application</description>
   <url>https://github.com/phax/phase4-peppol-standalone</url>
   <inceptionYear>2023</inceptionYear>
-  
+
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -42,8 +42,8 @@
     <junit.jupiter.version>5.11.4</junit.jupiter.version>
     <spring-boot.version>3.4.1</spring-boot.version>
   </properties>
-  
-  <!-- Include here to not bloat the global scope -->  
+
+  <!-- Include here to not bloat the global scope -->
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -87,7 +87,7 @@
       <groupId>com.helger.phase4</groupId>
       <artifactId>phase4-profile-bdew</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
