@@ -65,6 +65,8 @@ public class MessagesViewerController {
             .append("        .message-content { display: none; white-space: pre-wrap; background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 10px; }\n")
             .append("        .view-button { background-color: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }\n")
             .append("        .view-button:hover { background-color: #2980b9; }\n")
+            .append("        pre { white-space: pre-wrap; background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0; }\n")
+            .append("        .message-content { max-height: 500px; overflow-y: auto; }\n")
             .append("    </style>\n")
             .append("    <script>\n")
             .append("        function toggleContent(id) {\n")
@@ -131,7 +133,7 @@ public class MessagesViewerController {
                 Path path = entry.getKey();
                 filesFound.set(true);
                 byte[] fileBytes = Files.readAllBytes(path);
-                String content = Base64.getEncoder().encodeToString(fileBytes);
+                String content = formatContent(new String(fileBytes));
                 
                 String fileName = path.getFileName().toString();
                 String type = fileName.endsWith(".as4in") ? "Incoming" : "Outgoing";
@@ -178,15 +180,27 @@ public class MessagesViewerController {
         }
 
         try {
-            String trimmedContent = content.trim();
+            // First try to decode if content is Base64
+            String decodedContent;
+            try {
+                byte[] decodedBytes = Base64.getDecoder().decode(content.trim());
+                decodedContent = new String(decodedBytes);
+            } catch (IllegalArgumentException e) {
+                // If not Base64, use original content
+                decodedContent = content;
+            }
+
+            String trimmedContent = decodedContent.trim();
             if (trimmedContent.length() <= 1) {
                 return "File contains insufficient content (length: " + trimmedContent.length() + ")";
             }
 
+            // Handle JSON content
             if (trimmedContent.startsWith("{")) {
                 Object json = OBJECT_MAPPER.readValue(trimmedContent, Object.class);
                 return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             }
+            // Handle XML content
             else if (trimmedContent.startsWith("<")) {
                 if (trimmedContent.length() < 5) {
                     return "Invalid XML content (too short)";
@@ -201,14 +215,17 @@ public class MessagesViewerController {
                 StreamResult result = new StreamResult(writer);
 
                 transformer.transform(source, result);
-                return writer.toString();
+                return writer.toString()
+                        .replaceAll("&", "&amp;")
+                        .replaceAll("<", "&lt;")
+                        .replaceAll(">", "&gt;");
             }
-            return "Unrecognized content format: " + (trimmedContent.length() > 20 ?
-                   trimmedContent.substring(0, 20) + "..." : trimmedContent);
+            
+            // If neither JSON nor XML, return as plain text
+            return "Content (plain text):\n" + decodedContent;
         } catch (Exception e) {
-            return "Error processing content: " + e.getMessage() +
-                   "\nContent preview: " + (content.length() > 50 ?
-                   content.substring(0, 50) + "..." : content);
+            LOGGER.error("Error processing content", e);
+            return "Error processing content: " + e.getMessage();
         }
     }
 } 

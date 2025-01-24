@@ -132,12 +132,15 @@ public class BDEWCompatibilityValidator implements IAS4ProfileValidator
       else
       {
         final String sService = aBusinessInfo.getService ();
+        // TODO: comment in this
+
 //        if (sService == null || !BDEWPMode.containsService (sService))
 //        {
 //          aErrorList.add (_createError (sFieldPrefix + "BusinessInfo.Service '" + sService + "' is unsupported"));
 //        }
 
         final String sAction = aBusinessInfo.getAction ();
+        // TODO: comment in this
 //        if (sAction == null || !BDEWPMode.containsAction (sAction))
 //        {
 //          aErrorList.add (_createError (sFieldPrefix + "BusinessInfo.Action '" + sAction + "' is unsupported"));
@@ -460,7 +463,7 @@ public class BDEWCompatibilityValidator implements IAS4ProfileValidator
       final X500Name aTlsName = new X500Name (aSignatureCert.getSubjectX500Principal ().getName ());
       final RDN aSigCnRDN = aTlsName.getRDNs (BCStyle.CN)[0];
       final String cn = IETFUtils.valueToString (aSigCnRDN.getFirst ().getValue ());
-
+      // TODO: comment in this
 //      if (!cn.contains (EMT_MAK))
 //      {
 //        aErrorList.add (_createError ("Signature certificate '" +
