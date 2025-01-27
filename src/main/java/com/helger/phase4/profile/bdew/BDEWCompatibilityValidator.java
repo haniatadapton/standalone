@@ -131,16 +131,16 @@ public class BDEWCompatibilityValidator implements IAS4ProfileValidator
       }
       else
       {
-        final String sService = aBusinessInfo.getService ();
-        // TODO: comment in this
-
+        // This code causes errors
+//        final String sService = aBusinessInfo.getService ();
+//
 //        if (sService == null || !BDEWPMode.containsService (sService))
 //        {
 //          aErrorList.add (_createError (sFieldPrefix + "BusinessInfo.Service '" + sService + "' is unsupported"));
 //        }
+//
+//        final String sAction = aBusinessInfo.getAction ();
 
-        final String sAction = aBusinessInfo.getAction ();
-        // TODO: comment in this
 //        if (sAction == null || !BDEWPMode.containsAction (sAction))
 //        {
 //          aErrorList.add (_createError (sFieldPrefix + "BusinessInfo.Action '" + sAction + "' is unsupported"));
