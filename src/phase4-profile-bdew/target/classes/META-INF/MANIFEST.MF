@@ -1,0 +1,40 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.helger.phase4.profile.bdew
+Bnd-LastModified: 1737723684025
+Build-Jdk-Spec: 22
+Bundle-Description: BDEW AS4 profile
+Bundle-DocURL: https://www.helger.com
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-ManifestVersion: 2
+Bundle-Name: phase4-profile-bdew
+Bundle-SymbolicName: com.helger.phase4.profile-bdew
+Bundle-Vendor: Philip Helger
+Bundle-Version: 3.0.4.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin 5.1.9
+Export-Package: com.helger.phase4.profile.bdew;uses:="com.helger.commons
+ .annotation,com.helger.commons.error.list,com.helger.phase4.ebms3header
+ ,com.helger.phase4.incoming,com.helger.phase4.model.pmode,com.helger.ph
+ ase4.model.pmode.leg,com.helger.phase4.profile";version="3.0.4"
+Implementation-Title: phase4-profile-bdew
+Implementation-Vendor: Philip Helger
+Implementation-Version: 3.0.4-SNAPSHOT
+Import-Package: com.helger.commons;version="[11.1,12)",com.helger.common
+ s.annotation;version="[11.1,12)",com.helger.commons.collection.impl;ver
+ sion="[11.1,12)",com.helger.commons.error;version="[11.1,12)",com.helge
+ r.commons.error.list;version="[11.1,12)",com.helger.commons.state;versi
+ on="[11.1,12)",com.helger.commons.string;version="[11.1,12)",com.helger
+ .phase4.attachment;version="[3.0,4)",com.helger.phase4.crypto;version="
+ [3.0,4)",com.helger.phase4.ebms3header;version="[3.0,4)",com.helger.pha
+ se4.incoming;version="[3.0,4)",com.helger.phase4.mgr;version="[3.0,4)",
+ com.helger.phase4.model;version="[3.0,4)",com.helger.phase4.model.pmode
+ ;version="[3.0,4)",com.helger.phase4.model.pmode.leg;version="[3.0,4)",
+ com.helger.phase4.profile;version="[3.0,4)",com.helger.phase4.wss;versi
+ on="[3.0,4)",java.lang,java.lang.invoke,java.security.cert,java.util.fu
+ nction,javax.security.auth.x500,org.bouncycastle.asn1;version="[1.80,2)
+ ",org.bouncycastle.asn1.x500;version="[1.80,2)",org.bouncycastle.asn1.x
+ 500.style;version="[1.80,2)",org.slf4j;version="[2.0,3)"
+Provide-Capability: osgi.serviceloader;osgi.serviceloader="com.helger.ph
+ ase4.profile.IAS4ProfileRegistrarSPI"
+Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.servicelo
+ ader.registrar)",osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
+Tool: Bnd-6.3.1.202206071316

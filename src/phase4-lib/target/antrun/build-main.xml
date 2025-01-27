@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <delete dir="C:\Users\HaniAlassiriAlhabbou\Downloads\phase4\phase4-lib/target/generated-sources/xjc/com/helger/xsds/" />
+    <delete dir="C:\Users\HaniAlassiriAlhabbou\Downloads\phase4\phase4-lib/target/generated-sources/xjc/com/helger/phase4/xlink/" />
+  </target>
+</project>

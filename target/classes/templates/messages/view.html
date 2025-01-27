@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Message</title>
+    <style>
+        pre { background-color: #f8f8f8; padding: 15px; border-radius: 5px; }
+        .back-link { color: #880000; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <a href="/messages" class="back-link">← Back to Messages</a>
+    <h1>Message: <span th:text="${messageId}"></span></h1>
+    <pre th:text="${messageContent}"></pre>
+</body>
+</html> 
